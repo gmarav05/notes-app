@@ -2,7 +2,7 @@ import dbConnect from "@/lib/db";
 import Note from "@/models/Note";
 import { NextResponse } from "next/server";
 
-export async function GET(request) {
+export async function GET() {
     try {
         await dbConnect();
         const notes = await Note.find({}).sort({createdAt: -1});
