@@ -1,29 +1,51 @@
+// import mongoose from "mongoose";
+
+// const NoteSchema = new mongoose.Schema({
+//     title: {
+//         type:String,
+//         required: true,
+//         maxlength: 100
+//     },
+//     content: {
+//         type:String,
+//         required: true,
+//         maxlength: 2000
+//     },
+//     createdAt: {
+//         type:Date,
+//         default: Date.now
+//     },
+//     updatedAt: {
+//         type:Date,
+//         default: Date.now
+//     }
+// })
+
+
+// NoteSchema.pre("save", function(next) {
+//     this.updatedAt = Date.now();
+//     next();
+// })
+
+
+// export default mongoose.models.Note || mongoose.model("Note", NoteSchema);
+
 import mongoose from "mongoose";
 
-const NoteSchema = new mongoose.Schema({
+const NoteSchema = new mongoose.Schema(
+  {
     title: {
-        type:String,
-        required: true,
-        maxlength: 100
+      type: String,
+      required: true,
+      maxlength: 100,
     },
     content: {
-        type:String,
-        required: true,
-        maxlength: 2000
+      type: String,
+      required: true,
+      maxlength: 2000,
     },
-    createdAt: {
-        type:Date,
-        default: Date.now
-    },
-    updatedAt: {
-        type:Date,
-        default: Date.now
-    }
-})
-
-NoteSchema.pre("save", function(next) {
-    this.updatedAt = Date.now();
-    next();
-})
+  },
+  { timestamps: true } 
+);
 
 export default mongoose.models.Note || mongoose.model("Note", NoteSchema);

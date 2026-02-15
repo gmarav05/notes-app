@@ -2,12 +2,37 @@
 import React, {useState} from 'react'
 
 const NotesClient = () => {
+
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
     const [loading, setLoading] = useState(false)
+
+    const createNote = async (e) => {
+        e.preventDefault();
+
+        if(!title.trim() || !content.trim() ) return;
+
+        setLoading(true);
+
+        try {
+            const response = await fetch("/api/notes", {
+                method:"POST",
+                headers:{ "Content-Type": "application/json" },
+                body:JSON.stringify({title, content})
+            })
+
+            const result = await response.json();
+            console.log(result)
+            setLoading(false)
+            
+        } catch (error) {
+            console.error("Try Again!", error)
+        }
+    }
+
   return (
     <div className='space-y-6'>
-        <form className='bg-white p-6 rounded-lg shadow-md'>
+        <form onSubmit={createNote} className='bg-white p-6 rounded-lg shadow-md'>
             <h2 className='text-xl text-gray-800 font-semibold mb-4'>Create New Note</h2>
             <div className='space-y-4'>
                 <input 
