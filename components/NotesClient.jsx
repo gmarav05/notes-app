@@ -1,8 +1,8 @@
 "use client";
 import React, {useState} from 'react'
 
-const NotesClient = () => {
-
+const NotesClient = ({initialNotes}) => {
+    const [notes, setNotes] = useState(initialNotes);
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
     const [loading, setLoading] = useState(false)
