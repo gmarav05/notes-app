@@ -97,9 +97,9 @@ const NotesClient = ({ initialNotes }) => {
   };
 
   return (
-    <div className="space-y-6">
-      <form onSubmit={createNote} className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl text-gray-800 font-semibold mb-4">
+    <div className="space-y-8">
+      <form onSubmit={createNote} className="bg-(--card-bg) border border-(--card-border) p-6 rounded-2xl shadow-sm transition-shadow duration-300 hover:shadow-md">
+        <h2 className="text-lg font-semibold mb-5 text-foreground">
           Create New Note
         </h2>
         <div className="space-y-4">
@@ -108,7 +108,7 @@ const NotesClient = ({ initialNotes }) => {
             placeholder="Note Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800"
+            className="w-full px-4 py-3 bg-(--input-bg) border border-(--input-border) rounded-xl text-foreground placeholder-(--muted) focus:outline-none focus:ring-2 focus:ring-(--input-focus) focus:border-transparent transition-all duration-200"
             required
           />
 
@@ -117,12 +117,12 @@ const NotesClient = ({ initialNotes }) => {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             rows={4}
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800"
+            className="w-full px-4 py-3 bg-(--input-bg) border border-(--input-border) rounded-xl text-foreground placeholder-(--muted) focus:outline-none focus:ring-2 focus:ring-(--input-focus) focus:border-transparent transition-all duration-200 resize-none"
           />
           <button
             type="Submit"
             disabled={loading}
-            className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 disabled:opacity-50"
+            className="bg-(--accent) text-white px-6 py-2.5 rounded-xl font-medium hover:bg-(--accent-hover) disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 cursor-pointer shadow-sm hover:shadow"
           >
             {loading ? "Creating..." : "Create Note"}
           </button>
@@ -130,14 +130,17 @@ const NotesClient = ({ initialNotes }) => {
       </form>
 
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold">Your Notes ({notes.length})</h2>
+        <h2 className="text-lg font-semibold text-foreground">Your Notes <span className="text-(--muted) font-normal text-base">({notes.length})</span></h2>
         {notes.length === 0 ? (
-          <p className="text-gray-500">
-            No Notes Yet. Create Your First Note Above
-          </p>
+          <div className="text-center py-16">
+            <p className="text-(--muted) text-lg">
+              No notes yet
+            </p>
+            <p className="text-(--muted) text-sm mt-1">Create your first note above</p>
+          </div>
         ) : (
           notes.map((note) => (
-            <div key={note._id} className="bg-white p-6 rounded-lg shadow-md">
+            <div key={note._id} className="bg-(--card-bg) border border-(--card-border) p-6 rounded-2xl shadow-sm transition-all duration-300 hover:shadow-md">
               {editingId === note._id ? (
                 <>
                   <div className="space-y-4">
@@ -145,28 +148,28 @@ const NotesClient = ({ initialNotes }) => {
                       type="text"
                       value={editTitle}
                       onChange={(e) => setEditTitle(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-3 bg-(--input-bg) border border-(--input-border) rounded-xl text-foreground placeholder-(--muted) focus:outline-none focus:ring-2 focus:ring-(--input-focus) focus:border-transparent transition-all duration-200"
                       required
                     />
                     <textarea
                       value={editContent}
                       onChange={(e) => setEditContent(e.target.value)}
                       rows={4}
-                      className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-3 bg-(--input-bg) border border-(--input-border) rounded-xl text-foreground placeholder-(--muted) focus:outline-none focus:ring-2 focus:ring-(--input-focus) focus:border-transparent transition-all duration-200 resize-none"
                       required
                     />
 
-                    <div className="flex gap-2">
+                    <div className="flex gap-3">
                       <button
                         onClick={() => updateNote(note._id)}
                         disabled={loading}
-                        className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 disabled:opacity-50"
+                        className="bg-(--success) text-white px-5 py-2 rounded-xl font-medium hover:bg-(--success-hover) disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 cursor-pointer"
                       >
                         {loading ? "Saving..." : "Save"}
                       </button>
                       <button
                         onClick={cancelEdit}
-                        className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
+                        className="bg-(--cancel) text-white px-5 py-2 rounded-xl font-medium hover:bg-(--cancel-hover) transition-colors duration-200 cursor-pointer"
                       >
                         Cancel
                       </button>
@@ -176,33 +179,35 @@ const NotesClient = ({ initialNotes }) => {
               ) : (
                 <>
                   {/* view */}
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-lg font-semibold">{note.title}</h3>
-                    <div className="flex gap-2">
+                  <div className="flex justify-between items-start mb-3">
+                    <h3 className="text-lg font-semibold text-foreground leading-snug">{note.title}</h3>
+                    <div className="flex gap-3 ml-4 shrink-0">
                       <button
                         onClick={() => startEdit(note)}
-                        className="text-blue-500 hover:text-blue-700 text-sm"
+                        className="text-(--accent) hover:text-(--accent-hover) text-sm font-medium transition-colors duration-200 cursor-pointer"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => deleteNote(note._id)}
-                        className="text-red-500 hover:text-red-700 text-sm"
+                        className="text-(--danger) hover:text-(--danger-hover) text-sm font-medium transition-colors duration-200 cursor-pointer"
                       >
                         Delete
                       </button>
                     </div>
                   </div>
 
-                  <p className="text-gray-700 mb-2">{note.content}</p>
-                  <p className="text-sm text-gray-500">
-                    Created: {new Date(note.createdAt).toLocaleDateString()}
-                  </p>
-                  {note.updatedAt !== note.createdAt && (
-                    <p className="text-sm text-gray-500">
-                      Updated: {new Date(note.updatedAt).toLocaleDateString()}
+                  <p className="text-foreground opacity-80 mb-4 leading-relaxed whitespace-pre-wrap">{note.content}</p>
+                  <div className="flex gap-4 text-xs text-(--muted)">
+                    <p>
+                      Created: {new Date(note.createdAt).toLocaleDateString()}
                     </p>
-                  )}
+                    {note.updatedAt !== note.createdAt && (
+                      <p>
+                        Updated: {new Date(note.updatedAt).toLocaleDateString()}
+                      </p>
+                    )}
+                  </div>
                 </>
               )}
             </div>

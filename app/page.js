@@ -21,8 +21,13 @@ export default async function Home() {
   console.log(notes);
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Notes App</h1>
+    <div className="max-w-3xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
+      <div className="mb-10 text-center">
+        <h1 className="text-4xl font-extrabold tracking-tight text-white bg-clip-text text-transparent">
+          Notes App
+        </h1>
+        <p className="mt-2 text-(--muted) text-sm">Capture your thoughts, one note at a time.</p>
+      </div>
       <NotesClient initialNotes = {notes}/>
     </div>
     
