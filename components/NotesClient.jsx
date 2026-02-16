@@ -1,5 +1,6 @@
 "use client";
 import React, {useState} from 'react'
+import toast from 'react-hot-toast';
 
 const NotesClient = ({initialNotes}) => {
     const [notes, setNotes] = useState(initialNotes);
@@ -22,11 +23,17 @@ const NotesClient = ({initialNotes}) => {
             })
 
             const result = await response.json();
-            console.log(result)
+            if (result.success) {
+                setNotes([result.data, ...notes])
+                toast.success("Notes created!")
+                setTitle("")
+                setContent("")
+            }
             setLoading(false)
             
         } catch (error) {
             console.error("Try Again!", error)
+            toast.error("Try again!")
         }
     }
 
