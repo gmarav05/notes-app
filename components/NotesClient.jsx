@@ -8,6 +8,11 @@ const NotesClient = ({ initialNotes }) => {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [editingId, setEditingId] = useState(null);
+  const [editTitle, setEditTitle] = useState("");
+  const [editContent, setEditContent] = useState("");
+
+
   const createNote = async (e) => {
     e.preventDefault();
 
@@ -57,6 +62,46 @@ const NotesClient = ({ initialNotes }) => {
     }
   }
 
+  const updateNote = async (id) => {
+    if (!editTitle.trim() || !editContent.trim()) return;
+
+    setLoading(true);
+
+    try {
+        const response = await fetch(`/api/notes/${id}`, {
+            method: "PUT",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({title: editTitle, content: editContent}),
+        })
+
+        const result = await response.json();
+
+        if (result.success) {
+            toast.success("Notes updated successfully");
+            setNotes(notes.map((note) => (note._id === id ? result.data : note)));
+            setEditingId(null)
+            setEditTitle("")
+            setEditContent("");
+        }
+        
+    } catch (error) {
+        console.error("Error updating note:", error);
+        toast.error("Try Again!");
+    }
+  }
+
+  const startEdit = (note) => {
+    setEditingId(note._id);
+    setEditTitle(note.title);
+    setEditContent(note.content);
+  }
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditTitle("");
+    setEditContent("");
+  }
+
   return (
     <div className="space-y-6">
       <form onSubmit={createNote} className="bg-white p-6 rounded-lg shadow-md">
@@ -78,8 +123,7 @@ const NotesClient = ({ initialNotes }) => {
             onChange={(e) => setContent(e.target.value)}
             rows={4}
             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800"
-            required
-          ></textarea>
+          />
 
           <button
             type="Submit"
