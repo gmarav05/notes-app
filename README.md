@@ -22,6 +22,10 @@ Notes App is a simple but production-ready note-taking application that demonstr
 ## Live Demo
 
 
+https://github.com/user-attachments/assets/9c96d8c1-9e6c-4c07-b2b5-3867c4c97190
+
+
+
 
 ## Screenshot
 
