@@ -199,9 +199,7 @@ const NotesClient = ({ initialNotes }) => {
 
                   <p className="text-foreground opacity-80 mb-4 leading-relaxed whitespace-pre-wrap">{note.content}</p>
                   <div className="flex gap-4 text-xs text-(--muted)">
-                    <p>
-                      Created: {new Date(note.createdAt).toLocaleDateString()}
-                    </p>
+                    <p> Created: {new Date(note.createdAt).toLocaleDateString()}</p>
                     {note.updatedAt !== note.createdAt && (
                       <p>
                         Updated: {new Date(note.updatedAt).toLocaleDateString()}
